@@ -25,17 +25,17 @@ const Profile = () => {
       {levels?.map((level) => (
         <div
           key={level._id}
-          className="bg-gray-100 rounded-xl p-2 pl-4 mb-3 flex flex-row items-center justify-between"
+          className="bg-white border rounded-xl p-2 pl-4 mb-3 flex flex-row items-center justify-between"
         >
           <h3 className="font-semibold">{level.name}</h3>
           <div className="flex flex-row">
             <Link href="">
-              <a className="bg-gray-200 hover:bg-gray-300 py-2 px-4 rounded-lg">
+              <a className="bg-gray-100 hover:bg-gray-200 py-2 px-4 rounded-lg">
                 Edit
               </a>
             </Link>
             <button
-              className="bg-gray-200 hover:bg-gray-300 py-2 px-4 rounded-lg ml-2"
+              className="bg-gray-100 hover:bg-gray-200 py-2 px-4 rounded-lg ml-2"
               onClick={() => handleDeleteLevel(level._id)}
             >
               Delete

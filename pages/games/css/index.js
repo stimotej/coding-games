@@ -6,6 +6,7 @@ import Layout from "../../../components/Layout";
 import Tabs from "../../../components/Tabs";
 import useUser from "../../../lib/useUser";
 import axios from "axios";
+import formatHtml from "../../../lib/formatHtml";
 
 const CssGame = () => {
   const router = useRouter();
@@ -43,12 +44,7 @@ const CssGame = () => {
     codeCopy.find((code) => code.className === activeTab).code = text;
     setCode(codeCopy);
 
-    let html = game.codeHtml;
-    html = html.replace(new RegExp("class", "g"), "style");
-    codeCopy.forEach(
-      (css) => (html = html.replace(new RegExp(css.className, "g"), css.code))
-    );
-    setCodeDisplay(html);
+    setCodeDisplay(formatHtml(game.codeHtml, game.codeCss));
   };
 
   return (
@@ -74,46 +70,55 @@ const CssGame = () => {
           className="bg-gray-100 rounded-lg w-1/2 h-[200px] ml-4 mb-6 flex p-2"
           dangerouslySetInnerHTML={{ __html: solutionCodeDisplay }}
         />
+        <div className="flex flex-col ml-2">
+          <h3 className="mb-2">Colors</h3>
+          {game?.colors?.map((color, index) => (
+            <button
+              key={index}
+              style={{ backgroundColor: color }}
+              className="p-3 rounded-lg mr-2"
+              onClick={() => {
+                navigator.clipboard.writeText(color).then(
+                  function () {
+                    console.log("Async: Copying to clipboard was successful!");
+                  },
+                  function (err) {
+                    console.error("Async: Could not copy text: ", err);
+                  }
+                );
+              }}
+            >
+              {color}
+            </button>
+          ))}
+        </div>
       </div>
 
-      <div className="flex flex-row items-center justify-between mb-2">
-        <Tabs
-          tabs={game?.codeCss?.map((items) => items.className)}
-          value={activeTab}
-          onChange={setActiveTab}
-        />
-        {game?.colors?.map((color, index) => (
-          <button
-            key={index}
-            style={{ backgroundColor: color }}
-            className="p-3 rounded-lg ml-2"
-            onClick={() => {
-              navigator.clipboard.writeText(color).then(
-                function () {
-                  console.log("Async: Copying to clipboard was successful!");
-                },
-                function (err) {
-                  console.error("Async: Could not copy text: ", err);
-                }
-              );
-            }}
-          >
-            {color}
-          </button>
-        ))}
+      <div className="flex flex-row items-center">
+        <div className="w-2/3">
+          <div className="flex flex-row items-center justify-between mb-2">
+            <Tabs
+              tabs={game?.codeCss?.map((items) => items.className)}
+              value={activeTab}
+              onChange={setActiveTab}
+            />
+          </div>
+          <CodeEditor
+            value={code.find((code) => code.className === activeTab)?.code}
+            onChange={handleChange}
+            placeholder="Code here..."
+            language="css"
+            highlight={game?.colors?.map((color) => ({
+              word: color,
+              color: "#FB8C00",
+            }))}
+          />
+        </div>
+        <div className="w-1/3 ml-4">
+          <h3 className="font-semibold uppercase p-2 mb-2">HTML</h3>
+          <CodeEditor value={game?.codeHtml} disabled={true} language="html" />
+        </div>
       </div>
-      <CodeEditor
-        value={code.find((code) => code.className === activeTab)?.code}
-        onChange={handleChange}
-        placeholder="Code here..."
-        language="css"
-        highlight={game?.colors?.map((color) => ({
-          word: color,
-          color: "#FB8C00",
-        }))}
-      />
-      <h3 className="font-semibold uppercase mt-6 mb-4">HTML</h3>
-      <CodeEditor value={game?.codeHtml} disabled={true} language="html" />
     </Layout>
   );
 };

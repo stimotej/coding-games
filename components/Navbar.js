@@ -25,17 +25,19 @@ const Navbar = () => {
         {!!user ? (
           <>
             <Link href="/profile">
-              <a className="font-semibold mr-4">{user?.name}</a>
+              <a className="font-semibold mr-2 hover:bg-gray-100 py-2 px-5 rounded-full">
+                {user?.name}
+              </a>
             </Link>
             <button
-              className="py-2 px-5 rounded-full bg-gray-200 hover:bg-gray-300"
+              className="py-2 px-5 rounded-full bg-gray-100 hover:bg-gray-200"
               onClick={handleLogOut}
             >
               Log out
             </button>
             {router.pathname === "/games/css" && user.role === "Admin" && (
               <Link href="/games/css/new-level">
-                <a className="py-2 px-5 rounded-full bg-gray-200 hover:bg-gray-300 ml-2">
+                <a className="py-2 px-5 rounded-full bg-gray-100 hover:bg-gray-200 ml-2">
                   Create level
                 </a>
               </Link>

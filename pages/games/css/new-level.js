@@ -6,6 +6,7 @@ import Tabs from "../../../components/Tabs";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 import useUser from "../../../lib/useUser";
+import formatHtml from "../../../lib/formatHtml";
 
 const NewLevel = () => {
   const router = useRouter();
@@ -33,14 +34,7 @@ const NewLevel = () => {
   }, [levels]);
 
   useEffect(() => {
-    let code = codeHtml;
-
-    code = code.replace(new RegExp("class", "g"), "style");
-    codeCss.forEach(
-      (css) => (code = code.replace(new RegExp(css.className, "g"), css.code))
-    );
-
-    setCodeDisplay(code);
+    setCodeDisplay(formatHtml(codeHtml, codeCss));
   }, [codeHtml, codeCss]);
 
   const handleChangeCss = (code) => {

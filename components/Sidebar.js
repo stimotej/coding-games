@@ -23,7 +23,7 @@ const Sidebar = () => {
                 parseInt(activeLevel) === level.level ||
                 (typeof activeLevel === "undefined" && level.level === 1)
                   ? "bg-blue-500 text-white hover:bg-blue-600"
-                  : "bg-gray-200 hover:bg-gray-300"
+                  : "bg-gray-100 hover:bg-gray-200"
               }`}
             >
               {level.name}
