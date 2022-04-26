@@ -108,7 +108,7 @@ const NewLevel = () => {
       )
       .then((res) => {
         console.log(res.data);
-        mutate(res.data);
+        mutate([...levels, res.data]);
         router.push("/games/css");
       })
       .catch((err) => console.log(err))

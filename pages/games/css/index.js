@@ -5,6 +5,7 @@ import CodeEditor from "../../../components/CodeEditor";
 import Layout from "../../../components/Layout";
 import Tabs from "../../../components/Tabs";
 import useUser from "../../../lib/useUser";
+import axios from "axios";
 
 const CssGame = () => {
   const router = useRouter();
@@ -14,11 +15,11 @@ const CssGame = () => {
   const { data: game, error } = useSWR(`/games/css?level=${level || 1}`);
 
   useEffect(() => {
-    if (game) {
+    if (game && game.codeCss) {
       setCode(
         game.codeCss.map((css) => ({ className: css.className, code: "" }))
       );
-      setActiveTab(game.codeCss[0].className);
+      setActiveTab(game.codeCss[0]?.className);
 
       let html = game.codeHtml;
       html = html.replace(new RegExp("class", "g"), "style");
