@@ -10,6 +10,7 @@ const CodeEditor = ({
   highlight = [],
   language = "css",
   showLineNumbers = true,
+  onChangeColors,
 }) => {
   const codeEditor = useRef(null);
   const textArea = useRef(null);
@@ -50,8 +51,21 @@ const CodeEditor = ({
         );
     }
 
+    // Find colors
+    let colors =
+      value?.match(/#[a-fA-F0-9]{8}|#[a-fA-F0-9]{6}|#[a-fA-F0-9]{3}/g) || [];
+    if (typeof onChangeColors === "function") onChangeColors(colors);
+
+    // Highlight colors
+    colors.forEach((color) => {
+      codeText = codeText.replace(
+        new RegExp(color, "g"),
+        `<span style="color: #FB8C00">${color}</span>`
+      );
+    });
+
     // Highlight additional words from highlight prop
-    highlight.map((item) => {
+    highlight.forEach((item) => {
       codeText = codeText.replace(
         new RegExp(item.word, "g"),
         `<span style="color: ${item.color}">${item.word}</span>`

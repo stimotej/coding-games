@@ -72,17 +72,6 @@ const NewLevel = () => {
     setClassList(finalClassList);
   };
 
-  const handleAddColor = (e) => {
-    e.preventDefault();
-    if (
-      color.startsWith("#") &&
-      (color.length === 7 || color.length === 4 || color.length === 9)
-    ) {
-      setColorList([...colorList, color]);
-      setColor("");
-    }
-  };
-
   const handleSave = () => {
     setLoading(true);
     axios
@@ -103,7 +92,10 @@ const NewLevel = () => {
       .then((res) => {
         console.log(res.data);
         mutate([...levels, res.data]);
-        router.push("/games/css");
+        router.push({
+          pathname: "/games/css",
+          query: { level: res.data.level },
+        });
       })
       .catch((err) => console.log(err))
       .finally(() => setLoading(false));
@@ -126,34 +118,23 @@ const NewLevel = () => {
       />
       <h3 className="text-xl font-semibold mt-6 mb-2">Colors</h3>
       <div className="flex flex-row items-center">
-        <form onSubmit={handleAddColor}>
-          <input
-            type="text"
-            placeholder="Color HEX"
-            className="p-3 rounded-lg bg-gray-100 outline-none"
-            value={color}
-            onChange={(e) => setColor(e.target.value)}
-          />
-          <button
-            type="submit"
-            className="bg-blue p-3 rounded-lg bg-blue-600 text-white ml-2 uppercase"
-          >
-            Add
-          </button>
-        </form>
-        <div className="flex flex-row flex-wrap ml-6">
-          {colorList.map((colorItem, index) => (
-            <button
-              key={index}
-              style={{ backgroundColor: colorItem }}
-              className="p-3 rounded-lg mr-2"
-              onClick={() =>
-                setColorList(colorList.filter((item) => item !== colorItem))
-              }
-            >
-              {colorItem}
-            </button>
-          ))}
+        <div className="flex flex-row flex-wrap">
+          {colorList.length <= 0 ? (
+            <span className="my-2 text-gray-500">No colors yet.</span>
+          ) : (
+            colorList.map((colorItem, index) => (
+              <button
+                key={index}
+                style={{ backgroundColor: colorItem }}
+                className="p-3 rounded-lg mr-2"
+                onClick={() =>
+                  setColorList(colorList.filter((item) => item !== colorItem))
+                }
+              >
+                {colorItem}
+              </button>
+            ))
+          )}
         </div>
       </div>
       <div className="flex flex-row">
@@ -170,11 +151,8 @@ const NewLevel = () => {
           <CodeEditor
             value={codeCss.find((code) => code.className === actvieTab)?.code}
             onChange={handleChangeCss}
+            onChangeColors={setColorList}
             language="css"
-            highlight={colorList.map((item) => ({
-              word: item,
-              color: "#FB8C00",
-            }))}
             disabled={classList.length <= 0}
             placeholder={
               classList.length <= 0
@@ -188,6 +166,7 @@ const NewLevel = () => {
           <CodeEditor
             value={codeHtml}
             onChange={handleChangeHtml}
+            onChangeColors={setColorList}
             language="html"
             className="h-full"
             placeholder="Code here..."

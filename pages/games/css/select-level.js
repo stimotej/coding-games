@@ -12,6 +12,7 @@ const SelectLevel = () => {
       <div className="grid grid-cols-4 gap-2 w-full">
         {levels?.map((level) => (
           <Link
+            key={level._id}
             href={{ pathname: `/games/css`, query: { level: level.level } }}
           >
             <a className="border bg-white rounded-lg">

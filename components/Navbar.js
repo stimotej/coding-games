@@ -35,13 +35,14 @@ const Navbar = () => {
             >
               Log out
             </button>
-            {router.pathname === "/games/css" && user.role === "Admin" && (
-              <Link href="/games/css/new-level">
-                <a className="py-2 px-5 rounded-full bg-gray-100 hover:bg-gray-200 ml-2">
-                  Create level
-                </a>
-              </Link>
-            )}
+            {router.pathname === "/games/css/select-level" &&
+              user.role === "Admin" && (
+                <Link href="/games/css/new-level">
+                  <a className="py-2 px-5 rounded-full bg-gray-100 hover:bg-gray-200 ml-2">
+                    Create level
+                  </a>
+                </Link>
+              )}
           </>
         ) : (
           <Link href="/login">
