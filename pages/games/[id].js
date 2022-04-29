@@ -7,7 +7,7 @@ const Game = () => {
 
   const { data: game } = useSWR(`/games/${router.query?.id}`);
 
-  return <Layout title={game?.name}>Game {console.log(game)}</Layout>;
+  return <Layout title={game?.name}>Game</Layout>;
 };
 
 export default Game;
