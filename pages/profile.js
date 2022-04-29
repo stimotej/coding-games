@@ -5,12 +5,15 @@ import Link from "next/link";
 import axios from "axios";
 
 const Profile = () => {
-  const { data: levels, mutate } = useSWR(`/games/css`);
+  const { data: levels, mutate } = useSWR(`/css`);
+  const { data: games } = useSWR(`/games`);
+
+  console.log("ggaammeess", games);
 
   const handleDeleteLevel = (levelId) => {
     if (confirm("Are you sure?"))
       axios
-        .delete(`/games/css/${levelId}`, {
+        .delete(`/css/${levelId}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("auth-token")}`,
           },
@@ -27,7 +30,7 @@ const Profile = () => {
           key={level._id}
           className="bg-white border rounded-xl p-2 pl-4 mb-3 flex flex-row items-center justify-between"
         >
-          <h3 className="font-semibold">{level.name}</h3>
+          <h3 className="font-semibold">Level {level.level}</h3>
           <div className="flex flex-row">
             <Link href="">
               <a className="bg-gray-100 hover:bg-gray-200 py-2 px-4 rounded-lg">

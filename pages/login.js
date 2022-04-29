@@ -34,7 +34,7 @@ const Login = () => {
 
   return (
     <div className="flex flex-row h-screen items-center justify-center bg-gray-100">
-      <div className="bg-white p-6 rounded-lg w-1/3 border">
+      <div className="bg-white p-6 rounded-lg w-4/5 sm:w-1/2 lg:w-1/3 border">
         <h1 className="text-xl font-semibold">Login</h1>
         {error && <p className="text-red-500 mt-4">{error}</p>}
         <form onSubmit={handleLogin} className="flex flex-col mt-6">

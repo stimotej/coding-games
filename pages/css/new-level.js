@@ -1,17 +1,17 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import CodeEditor from "../../../components/CodeEditor";
-import Layout from "../../../components/Layout";
-import Tabs from "../../../components/Tabs";
 import { useRouter } from "next/router";
 import useSWR from "swr";
-import useUser from "../../../lib/useUser";
-import formatHtml from "../../../lib/formatHtml";
+import CodeEditor from "../../components/CodeEditor";
+import formatHtml from "../../lib/formatHtml";
+import Layout from "../../components/Layout";
+import useUser from "../../lib/useUser";
+import Tabs from "../../components/Tabs";
 
 const NewLevel = () => {
   const router = useRouter();
 
-  const { data: levels, mutate } = useSWR(`/games/css`);
+  const { data: levels, mutate } = useSWR(`/css`);
   const { user } = useUser();
 
   const [title, setTitle] = useState("");
@@ -76,7 +76,7 @@ const NewLevel = () => {
     setLoading(true);
     axios
       .post(
-        "/games/css",
+        "/css",
         {
           name: title,
           codeHtml,
@@ -137,8 +137,8 @@ const NewLevel = () => {
           )}
         </div>
       </div>
-      <div className="flex flex-row">
-        <div className="w-1/2">
+      <div className="flex flex-col sm:flex-row">
+        <div className="w-full sm:w-1/2">
           <h3 className="text-xl font-semibold mt-6 mb-2">CSS</h3>
           {classList.length > 0 && (
             <Tabs
@@ -161,14 +161,14 @@ const NewLevel = () => {
             }
           />
         </div>
-        <div className="ml-4 w-1/2 flex flex-col">
+        <div className="w-full sm:w-1/2 ml-0 sm:ml-4 flex flex-col">
           <h3 className="text-xl font-semibold mt-6 mb-2">HTML</h3>
           <CodeEditor
             value={codeHtml}
             onChange={handleChangeHtml}
             onChangeColors={setColorList}
             language="html"
-            className="h-full"
+            className="h-[200px] sm:h-full"
             placeholder="Code here..."
           />
         </div>

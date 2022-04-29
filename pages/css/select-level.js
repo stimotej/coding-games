@@ -1,19 +1,19 @@
 import React from "react";
 import useSWR from "swr";
 import Link from "next/link";
-import Layout from "../../../components/Layout";
-import formatHtml from "../../../lib/formatHtml";
+import Layout from "../../components/Layout";
+import formatHtml from "../../lib/formatHtml";
 
 const SelectLevel = () => {
-  const { data: levels, error } = useSWR(`/games/css`);
+  const { data: levels, error } = useSWR(`/css`);
   return (
     <Layout title="Select level">
       <h3 className="text-xl font-bold mb-4">Levels</h3>
-      <div className="grid grid-cols-4 gap-2 w-full">
+      <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-2 w-full">
         {levels?.map((level) => (
           <Link
             key={level._id}
-            href={{ pathname: `/games/css`, query: { level: level.level } }}
+            href={{ pathname: `/css`, query: { level: level.level } }}
           >
             <a className="border bg-white rounded-lg">
               <div
@@ -22,7 +22,7 @@ const SelectLevel = () => {
                   __html: formatHtml(level.codeHtml, level.codeCss),
                 }}
               />
-              <div className="p-4">{level.name}</div>
+              <div className="p-4">Level {level.level}</div>
             </a>
           </Link>
         ))}
