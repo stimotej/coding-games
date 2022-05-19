@@ -126,7 +126,7 @@ const CodeEditor = ({
         onKeyDown={handleKey}
         onScroll={handleScroll}
         spellCheck="false"
-        className="ml-6 pl-1 absolute inset-0 p-4 resize-none overflow-auto border-none outline-none text-transparent bg-transparent z-10 caret-black whitespace-wrap"
+        className="ml-6 pl-1 absolute inset-0 p-4 resize-none overflow-auto border-none outline-none text-transparent bg-transparent z-10 caret-black dark:caret-gray-200 whitespace-wrap"
       ></textarea>
 
       <div
