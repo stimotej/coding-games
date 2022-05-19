@@ -14,11 +14,13 @@ const Navbar = () => {
   };
 
   return (
-    <div className="h-[56px] flex flex-row items-center justify-between px-4 sm:px-12 bg-white border-b w-full">
+    <div className="h-[56px] flex flex-row items-center justify-between px-4 sm:px-12 bg-white dark:bg-secondary border-b dark:border-0 w-full">
       <Link href="/">
         <a className="font-bold text-xl">
           <span className="text-blue-500 hidden sm:inline">Coding: </span>
-          <span className="text-gray-600 hidden sm:inline">games;</span>
+          <span className="text-gray-600 dark:text-text-light hidden sm:inline">
+            games;
+          </span>
           <span className="text-blue-600 sm:hidden">{"{ ; }"}</span>
         </a>
       </Link>
@@ -26,13 +28,13 @@ const Navbar = () => {
         {!!user ? (
           <>
             <Link href="/profile">
-              <a className="flex flex-row items-center font-semibold mr-2 hover:bg-gray-100 py-2 px-5 rounded-full">
+              <a className="flex flex-row items-center dark:text-white font-semibold mr-2 hover:bg-gray-100 dark:hover:bg-secondary-light py-2 px-5 rounded-full">
                 <MdPersonOutline className="mr-0 md:mr-2" size={24} />
                 <span className="hidden md:block">{user?.name}</span>
               </a>
             </Link>
             <button
-              className="flex flex-row items-center py-2 px-5 rounded-full bg-gray-100 hover:bg-gray-200"
+              className="flex flex-row items-center py-2 px-5 rounded-full dark:text-white bg-gray-100 dark:bg-secondary-light hover:bg-gray-200 dark:hover:bg-secondary-light/50"
               onClick={handleLogOut}
             >
               <MdLogout className="mr-0 md:mr-2" size={24} />

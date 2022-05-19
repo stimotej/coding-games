@@ -3,28 +3,24 @@ import useSWR from "swr";
 import Link from "next/link";
 import Layout from "../../components/Layout";
 import formatHtml from "../../lib/formatHtml";
+import LevelCard from "../../components/LevelCard";
+import useUser from "../../lib/useUser";
 
 const SelectLevel = () => {
   const { data: levels, error } = useSWR(`/css`);
+  const { user } = useUser();
+
   return (
     <Layout title="Select level">
-      <h3 className="text-xl font-bold mb-4">Levels</h3>
-      <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-2 w-full">
+      <h3 className="text-xl font-bold mb-4 dark:text-white">Levels</h3>
+      <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-4 w-full">
         {levels?.map((level) => (
-          <Link
+          <LevelCard
             key={level._id}
-            href={{ pathname: `/css`, query: { level: level.level } }}
-          >
-            <a className="border bg-white rounded-lg">
-              <div
-                className="bg-gray-200 h-[150px] flex rounded-t-lg"
-                dangerouslySetInnerHTML={{
-                  __html: formatHtml(level.codeHtml, level.codeCss),
-                }}
-              />
-              <div className="p-4">Level {level.level}</div>
-            </a>
-          </Link>
+            level={level}
+            passed={user?.progressCss > level.level}
+            disabled={user?.progressCss < level.level}
+          />
         ))}
       </div>
     </Layout>

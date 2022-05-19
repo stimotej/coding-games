@@ -3,7 +3,7 @@ import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 import { useRouter } from "next/router";
 
-const Layout = ({ children, title }) => {
+const Layout = ({ children, title, beforeContainer }) => {
   const router = useRouter();
 
   return (
@@ -17,15 +17,10 @@ const Layout = ({ children, title }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className={`bg-gray-50 min-h-screen`}>
+      <div className={`bg-gray-50 dark:bg-background min-h-screen`}>
         <Navbar />
-        <div
-          className={`p-6 ${
-            router.pathname.includes("/games/") ? "rounded-tl-xl" : ""
-          }`}
-        >
-          {children}
-        </div>
+        {beforeContainer}
+        <div className={`p-6`}>{children}</div>
       </div>
     </div>
   );

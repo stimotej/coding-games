@@ -8,7 +8,6 @@ const CodeEditor = ({
   disabled,
   className,
   highlight = [],
-  language = "css",
   showLineNumbers = true,
   onChangeColors,
 }) => {
@@ -28,28 +27,24 @@ const CodeEditor = ({
       .replace(new RegExp("<", "g"), "&lt;")
       .replace(new RegExp("\n", "g"), "<br />");
 
-    if (language === "css") {
-      // CSS HIGHLIGHT
-      cssSyntax.words.map((fun) => {
-        codeText = codeText.replace(
-          new RegExp(fun, "g"),
-          `<span style="color: ${cssSyntax.color}">${fun}</span>`
-        );
-      });
-    }
+    // CSS HIGHLIGHT
+    cssSyntax.words.map((fun) => {
+      codeText = codeText.replace(
+        new RegExp(fun, "g"),
+        `<span style="color: ${cssSyntax.color}">${fun}</span>`
+      );
+    });
 
-    if (language === "html") {
-      // HTML HIGHLIGHT
-      codeText = codeText
-        .replace(
-          new RegExp("div", "g"),
-          `<span style='color: #1565C0'>div</span>`
-        )
-        .replace(
-          new RegExp("class", "g"),
-          `<span style='color: #42A5F5'>class</span>`
-        );
-    }
+    // HTML HIGHLIGHT
+    codeText = codeText
+      .replace(
+        new RegExp("div", "g"),
+        `<span style='color: #1565C0'>div</span>`
+      )
+      .replace(
+        new RegExp("class", "g"),
+        `<span style='color: #42A5F5'>class</span>`
+      );
 
     // Find colors
     let colors =
@@ -110,12 +105,12 @@ const CodeEditor = ({
 
   return (
     <div
-      className={`relative text-md font-normal bg-gray-100 h-[200px] rounded-lg ${className}`}
+      className={`relative text-md font-normal bg-gray-100 dark:bg-secondary h-[200px] rounded-lg ${className}`}
     >
       {showLineNumbers && (
         <div
           ref={lineNumbers}
-          className="flex flex-col py-4 w-6 items-center text-gray-500 h-full overflow-hidden"
+          className="flex flex-col py-4 w-6 items-center text-gray-500 dark:text-text-light h-full overflow-hidden"
         >
           {[...Array(lines)].map((_, i) => (
             <span key={i}>{i + 1}</span>
@@ -137,7 +132,7 @@ const CodeEditor = ({
       <div
         ref={codeEditor}
         spellCheck={false}
-        className="ml-6 pl-1 absolute inset-0 overflow-auto text-yellow-800 bg-gray-100 p-4 rounded-lg z-0 whitespace-wrap"
+        className="ml-6 pl-1 absolute inset-0 overflow-auto text-gray-800 dark:text-gray-200 bg-gray-100dark:bg-secondary p-4 rounded-lg z-0 whitespace-wrap"
       />
     </div>
   );
