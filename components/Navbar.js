@@ -42,7 +42,7 @@ const Navbar = () => {
             </button>
             {router.pathname === "/css/select-level" && user.role === "Admin" && (
               <Link href="/css/new-level">
-                <a className="flex flex-row items-center py-2 px-5 rounded-full bg-gray-100 hover:bg-gray-200 ml-2">
+                <a className="flex flex-row items-center py-2 px-5 rounded-full dark:text-white bg-gray-100 dark:bg-secondary-light hover:bg-gray-200 dark:hover:bg-secondary-light/50 ml-2">
                   <MdAdd className="mr-0 md:mr-2" size={24} />
                   <span className="hidden md:block">Create level</span>
                 </a>

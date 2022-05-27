@@ -13,15 +13,7 @@ const GameBar = ({ game, codeCss }) => {
     setLoading(true);
     setError(null);
     axios
-      .post(
-        `/css/${game._id}/submit`,
-        { codeCss },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("auth-token")}`,
-          },
-        }
-      )
+      .post(`/css/${game._id}/submit`, { codeCss })
       .then((res) => {
         if (res.data.success === 0) setError("Wrong answer");
         console.log(res.data);

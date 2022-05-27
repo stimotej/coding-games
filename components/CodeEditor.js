@@ -49,6 +49,7 @@ const CodeEditor = ({
     // Find colors
     let colors =
       value?.match(/#[a-fA-F0-9]{8}|#[a-fA-F0-9]{6}|#[a-fA-F0-9]{3}/g) || [];
+    colors = colors.filter((v, i, a) => a.indexOf(v) === i);
     if (typeof onChangeColors === "function") onChangeColors(colors);
 
     // Highlight colors

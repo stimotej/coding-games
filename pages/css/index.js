@@ -13,9 +13,9 @@ const CssGame = () => {
   const { data: game } = useSWR(`/css?level=${level || 1}`);
   const { user } = useUser();
 
-  useEffect(() => {
-    if (level > user?.progressCss) router.push("/css/select-level");
-  }, [game]);
+  // useEffect(() => {
+  //   if (level > user?.progressCss) router.push("/css/select-level");
+  // }, [game]);
 
   return (
     <Layout

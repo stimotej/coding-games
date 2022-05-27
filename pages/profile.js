@@ -12,11 +12,7 @@ const Profile = () => {
   const handleDeleteLevel = (levelId) => {
     if (confirm("Are you sure?"))
       axios
-        .delete(`/css/${levelId}`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("auth-token")}`,
-          },
-        })
+        .delete(`/css/${levelId}`)
         .then((res) => mutate(levels.filter((level) => level._id !== levelId)))
         .catch((err) => console.log(err.response));
   };
