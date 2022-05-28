@@ -61,14 +61,21 @@ export default function Home() {
           </div>
           <div className="flex">
             <Link
-              href={{ pathname: `/css`, query: { level: user?.progressCss } }}
+              href={{
+                pathname: `/css`,
+                query: { level: user?.levelsPassed + 1 },
+              }}
             >
               <a className="p-6 rounded-lg text-sm uppercase bg-white dark:bg-secondary border dark:border-0">
                 <span className="text-blue-500 text-2xl font-bold">CSS</span>
-                <br />
-                <div className="mt-2 dark:text-white">
-                  Current level: {user?.progressCss}
-                </div>
+                {user && (
+                  <>
+                    <br />
+                    <div className="mt-2 dark:text-white">
+                      Current level: {user?.levelsPassed + 1}
+                    </div>
+                  </>
+                )}
               </a>
             </Link>
           </div>

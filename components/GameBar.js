@@ -34,7 +34,7 @@ const GameBar = ({ game, codeCss }) => {
         >
           {loading ? "Sending..." : "Submit"}
         </button>
-        {user?.progressCss > game?.level && (
+        {user?.levelsPassed > game?.level && (
           <Link href={{ pathname: "/css", query: { level: game?.level + 1 } }}>
             <a className="bg-blue-500 text-white py-2 px-5 rounded-lg ml-3">
               Next

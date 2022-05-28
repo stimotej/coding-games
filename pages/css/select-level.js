@@ -18,8 +18,8 @@ const SelectLevel = () => {
           <LevelCard
             key={level._id}
             level={level}
-            passed={user?.progressCss > level.level}
-            disabled={user?.progressCss < level.level}
+            passed={user?.levelsPassed >= level.level}
+            disabled={user?.levelsPassed + 1 < level.level}
           />
         ))}
       </div>

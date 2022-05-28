@@ -1,13 +1,18 @@
 import { useState } from "react";
 import useSWR from "swr";
 import Layout from "../components/Layout";
-import Link from "next/link";
+import Image from "next/image";
 import axios from "axios";
 import ThemeSelect from "../components/ThemeSelect";
+import useUser from "../lib/useUser";
 
 const Profile = () => {
   const { data: levels, mutate } = useSWR(`/css`);
-  const { data: games } = useSWR(`/games`);
+  const { user, mutate: setUser } = useUser();
+
+  const [profileImage, setProfileImage] = useState(null);
+  const [username, setUsername] = useState(user?.username || "");
+  const [fullName, setFullName] = useState(user?.name || "");
 
   const handleDeleteLevel = (levelId) => {
     if (confirm("Are you sure?"))
@@ -15,6 +20,27 @@ const Profile = () => {
         .delete(`/css/${levelId}`)
         .then((res) => mutate(levels.filter((level) => level._id !== levelId)))
         .catch((err) => console.log(err.response));
+  };
+
+  const handleSave = (e) => {
+    e.preventDefault();
+    var data = {};
+    if (profileImage) {
+      data = new FormData();
+      data.append("username", username);
+      data.append("name", fullName);
+      data.append("image", profileImage);
+    } else {
+      data = { username, name: fullName };
+    }
+    console.log(data);
+    axios
+      .patch("/auth/profile", data)
+      .then((res) => {
+        console.log(res.data);
+        setUser(res.data);
+      })
+      .catch((err) => console.log(err.response));
   };
 
   const [tab, setTab] = useState("profile");
@@ -45,17 +71,21 @@ const Profile = () => {
             >
               My Games
             </button>
-            <hr />
-            <button
-              className={`p-3 my-1 w-full rounded-lg dark:text-white ${
-                tab === "admin"
-                  ? "bg-gray-100 dark:bg-secondary-light"
-                  : "hover:bg-gray-100 hover:dark:bg-secondary-light"
-              }`}
-              onClick={() => setTab("admin")}
-            >
-              Admin
-            </button>
+            {user?.role === "Admin" && (
+              <>
+                <hr />
+                <button
+                  className={`p-3 my-1 w-full rounded-lg dark:text-white ${
+                    tab === "admin"
+                      ? "bg-gray-100 dark:bg-secondary-light"
+                      : "hover:bg-gray-100 hover:dark:bg-secondary-light"
+                  }`}
+                  onClick={() => setTab("admin")}
+                >
+                  Admin
+                </button>
+              </>
+            )}
           </div>
         </div>
         <div className="w-3/4">
@@ -91,7 +121,50 @@ const Profile = () => {
               ))}
             </>
           ) : (
-            <div className="flex items-center">
+            <div className="">
+              <form
+                onSubmit={handleSave}
+                className="border dark:border-0 bg-white dark:bg-secondary rounded-lg p-4 flex"
+              >
+                <label
+                  htmlFor="profileImage"
+                  className="block w-1/3 relative h-[200px]"
+                >
+                  <Image
+                    src={
+                      (typeof window !== "undefined" &&
+                        profileImage &&
+                        URL.createObjectURL(profileImage)) ||
+                      user?.image ||
+                      "/default_profile_image.png"
+                    }
+                    alt="Profile image"
+                    layout="fill"
+                    objectFit="contain"
+                  />
+                </label>
+                <input
+                  id="profileImage"
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => {
+                    setProfileImage(e.target.files[0]);
+                    console.log(URL.createObjectURL(e.target.files[0]));
+                  }}
+                />
+                <input
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+                <input
+                  type="text"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                />
+                <button type="submit">Save</button>
+              </form>
+
               <div className="dark:text-white mr-4">Select theme: </div>
               <ThemeSelect />
             </div>

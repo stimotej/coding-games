@@ -58,14 +58,16 @@ const Game = ({ game }) => {
           <h3 className="mb-4 text-lg font-semibold dark:text-white">
             Level {game?.level}
           </h3>
-          <div className="mb-2 p-2 bg-white dark:bg-secondary dark:text-white flex justify-between rounded-lg border dark:border-0">
-            <p>Highest score</p>
-            <p>
-              {user?.played.find(
-                (playedGame) => playedGame.gameId === game?._id
-              )?.highestScore || "---"}
-            </p>
-          </div>
+          {user && (
+            <div className="mb-2 p-2 bg-white dark:bg-secondary dark:text-white flex justify-between rounded-lg border dark:border-0">
+              <p>Highest score</p>
+              <p>
+                {user?.played.find(
+                  (playedGame) => playedGame.gameId === game?._id
+                )?.highestScore || "---"}
+              </p>
+            </div>
+          )}
           {result && (
             <div className="border dark:border-0 bg-white dark:bg-secondary rounded-lg p-2 dark:text-white mb-4">
               <h4 className="uppercase text-sm font-semibold mb-2">Result</h4>

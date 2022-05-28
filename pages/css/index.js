@@ -14,7 +14,7 @@ const CssGame = () => {
   const { user } = useUser();
 
   // useEffect(() => {
-  //   if (level > user?.progressCss) router.push("/css/select-level");
+  //   if (level > user?.levelsPassed) router.push("/css/select-level");
   // }, [game]);
 
   return (
