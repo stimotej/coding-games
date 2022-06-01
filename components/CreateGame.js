@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import formatHtml from "../lib/formatHtml";
 import useSWR from "swr";
 import defaultCodeValue from "../lib/defaultCodeValue";
+import Editor, { useMonaco } from "@monaco-editor/react";
 
 const CreateGame = ({ defaultTitle, isGame }) => {
   const router = useRouter();
@@ -23,10 +24,6 @@ const CreateGame = ({ defaultTitle, isGame }) => {
   useEffect(() => {
     if (!!levels && !isGame) setTitle(`Level ${levels.length + 1}`);
   }, [levels]);
-
-  const handleChangeHtml = (code) => {
-    setCode(code);
-  };
 
   const handleSave = () => {
     setLoading(true);
@@ -70,12 +67,17 @@ const CreateGame = ({ defaultTitle, isGame }) => {
       <div className="flex flex-row mt-6">
         <div className="w-full sm:w-1/2 flex flex-col">
           <h3 className="text-xl font-semibold mb-2 dark:text-white">Code</h3>
-          <CodeEditor
+          {/* <CodeEditor
             value={code}
             onChange={handleChangeHtml}
             onChangeColors={setColorList}
             className="h-[200px] sm:h-full"
             placeholder="Code here..."
+          /> */}
+          <CodeEditor
+            value={code}
+            onChange={setCode}
+            onChangeColors={setColorList}
           />
         </div>
         <div className="w-1/3 ml-6">
@@ -85,7 +87,8 @@ const CreateGame = ({ defaultTitle, isGame }) => {
             </h3>
             <Preview
               id="solution"
-              html={formatHtml(code)}
+              html={code}
+              // html={formatHtml(code)}
               className="mb-6 w-full min-h-[200px]"
             />
           </div>
@@ -115,7 +118,7 @@ const CreateGame = ({ defaultTitle, isGame }) => {
             <div className="flex flex-row items-center">
               <div className="flex flex-row flex-wrap gap-2">
                 {colorList.length <= 0 ? (
-                  <span className="my-2 text-gray-500 dark:text-white">
+                  <span className="my-2 text-gray-500 dark:text-gray-500">
                     No colors yet.
                   </span>
                 ) : (
