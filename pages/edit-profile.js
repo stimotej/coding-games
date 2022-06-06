@@ -9,7 +9,7 @@ import useUser from "../lib/useUser";
 import axios from "axios";
 import { useRouter } from "next/router";
 
-const editProfile = () => {
+const EditProfile = () => {
   const router = useRouter();
 
   const { user, mutate: setUser } = useUser();
@@ -310,4 +310,4 @@ const editProfile = () => {
   );
 };
 
-export default editProfile;
+export default EditProfile;
