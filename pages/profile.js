@@ -103,7 +103,7 @@ const Profile = () => {
               </div>
               {games?.filter((game) => game.createdBy._id === user?._id)
                 ?.length <= 0 ? (
-                <p className="text-gray-500 mt-6">You don't have games yet.</p>
+                <p className="text-gray-500 mt-6">You dont have games yet.</p>
               ) : (
                 <div className="grid grid-cols-3 gap-4 mt-6">
                   {games

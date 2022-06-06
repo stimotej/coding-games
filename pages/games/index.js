@@ -30,7 +30,7 @@ const Games = () => {
       </div>
       <div className="grid grid-cols-4 gap-4 mt-4">
         {games?.length <= 0 ? (
-          <p className="text-gray-500 mt-6">You don't have games yet.</p>
+          <p className="text-gray-500 mt-6">You dont have games yet.</p>
         ) : (
           games?.map((game) => <LevelCard key={game._id} level={game} isGame />)
         )}
