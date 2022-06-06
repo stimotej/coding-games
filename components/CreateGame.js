@@ -5,25 +5,34 @@ import Preview from "./Preview";
 import axios from "axios";
 import useUser from "../lib/useUser";
 import { useRouter } from "next/router";
-import formatHtml from "../lib/formatHtml";
 import useSWR from "swr";
 import defaultCodeValue from "../lib/defaultCodeValue";
-import Editor, { useMonaco } from "@monaco-editor/react";
+import { MdSave, MdArrowBack } from "react-icons/md";
+import Input from "../components/Input";
 
-const CreateGame = ({ defaultTitle, isGame }) => {
+const CreateGame = ({ defaultTitle, isGame, level }) => {
   const router = useRouter();
-  const [code, setCode] = useState(defaultCodeValue);
 
   const { data: levels, mutate } = useSWR(`/css`);
   const { user } = useUser();
 
-  const [colorList, setColorList] = useState([]);
   const [loading, setLoading] = useState("");
+
   const [title, setTitle] = useState(defaultTitle || "");
+  const [code, setCode] = useState(defaultCodeValue);
+  const [colorList, setColorList] = useState([]);
 
   useEffect(() => {
-    if (!!levels && !isGame) setTitle(`Level ${levels.length + 1}`);
-  }, [levels]);
+    if (!!levels && !isGame && !level) setTitle(`Level ${levels.length + 1}`);
+    if (level && !!levels) {
+      const levelObject = levels.find((item) => item.level === parseInt(level));
+      if (levelObject) {
+        setCode(levelObject.code);
+        setTitle(`Level ${levelObject.level}`);
+        setColorList(levelObject.colors);
+      }
+    }
+  }, [levels, level]);
 
   const handleSave = () => {
     setLoading(true);
@@ -61,12 +70,44 @@ const CreateGame = ({ defaultTitle, isGame }) => {
 
   return (
     <>
-      <h1 className="text-2xl font-bold mb-6 dark:text-white">
-        {isGame ? "Create game" : "New CSS level"}
-      </h1>
-      <div className="flex flex-row mt-6">
-        <div className="w-full sm:w-1/2 flex flex-col">
-          <h3 className="text-xl font-semibold mb-2 dark:text-white">Code</h3>
+      <div className="flex justify-between bg-white border dark:border-0 p-2 rounded-lg dark:bg-secondary">
+        <button
+          className="flex items-center py-2 px-5 rounded-lg dark:text-white bg-gray-100 dark:bg-secondary-light hover:bg-gray-200 dark:hover:bg-secondary-light/50"
+          onClick={() => router.back()}
+        >
+          <MdArrowBack size={22} className="mr-2" />
+          Back
+        </button>
+
+        <h3 className="flex items-center dark:text-white text-xl font-semibold">
+          {level
+            ? `Edit level ${level}`
+            : isGame
+            ? "Create game"
+            : "New CSS level"}
+        </h3>
+
+        <div className="flex">
+          <Input
+            type="text"
+            placeholder="Title here..."
+            value={title}
+            onChange={setTitle}
+            className=""
+          />
+          <button
+            className="flex items-center ml-2 py-2 px-5 rounded-lg dark:text-white bg-gray-100 dark:bg-secondary-light hover:hover:bg-blue-500 dark:hover:bg-blue-600"
+            onClick={handleSave}
+            disabled={user?.role !== "Admin"}
+          >
+            <MdSave size={22} className="mr-2" />
+            {loading ? "Loading..." : "Save"}
+          </button>
+        </div>
+      </div>
+      <div className="flex flex-row mt-6 items-stretch min-h-[400px]">
+        <div className="w-full sm:w-1/2 flex flex-col items-stretch">
+          <h3 className="mb-2 text-gray-500">Code</h3>
           {/* <CodeEditor
             value={code}
             onChange={handleChangeHtml}
@@ -80,41 +121,15 @@ const CreateGame = ({ defaultTitle, isGame }) => {
             onChangeColors={setColorList}
           />
         </div>
-        <div className="w-1/3 ml-6">
+        <div className="w-1/3 ml-4">
           <div className="flex flex-col">
-            <h3 className="text-xl font-semibold mb-2 dark:text-white">
-              Preview
-            </h3>
-            <Preview
-              id="solution"
-              html={code}
-              // html={formatHtml(code)}
-              className="mb-6 w-full min-h-[200px]"
-            />
-          </div>
-          <h3 className="text-xl font-semibold mb-2 dark:text-white">Title</h3>
-          <div className="flex">
-            <input
-              type="text"
-              placeholder="Title here..."
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              className="flex-1 p-3 rounded-lg bg-gray-100 outline-none dark:bg-secondary-light dark:text-white"
-            />
-            <button
-              className="ml-2 py-3 px-8 bg-blue-600 dark:bg-blue-800 hover:bg-blue-500 dark:hover:bg-blue-700 text-white rounded-lg"
-              onClick={handleSave}
-              disabled={user?.role !== "Admin"}
-            >
-              {loading ? "Loading..." : "Save"}
-            </button>
+            <h3 className="mb-2 text-gray-500">Preview</h3>
+            <Preview id="solution" html={code} />
           </div>
         </div>
-        <div className="w-1/6">
+        <div className="w-1/6 ml-4">
           <div className="flex flex-col">
-            <h3 className="text-xl font-semibold mb-2 dark:text-white">
-              Colors
-            </h3>
+            <h3 className="mb-2 text-gray-500">Colors</h3>
             <div className="flex flex-row items-center">
               <div className="flex flex-row flex-wrap gap-2">
                 {colorList.length <= 0 ? (

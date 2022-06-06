@@ -2,30 +2,38 @@ import useSWR from "swr";
 import Link from "next/link";
 import Layout from "../../components/Layout";
 import formatHtml from "../../lib/formatHtml";
+import { useRouter } from "next/router";
+import { MdArrowBack } from "react-icons/md";
+import LevelCard from "../../components/LevelCard";
 
 const Games = () => {
+  const router = useRouter();
+
   const { data: games } = useSWR("/games");
 
   return (
     <Layout title="Games">
-      <h3 className="text-xl font-bold mb-3">All Games</h3>
-      <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-2 mt-4">
-        {games?.map((game) => (
-          <Link key={game._id} href={`/games/${game._id}`}>
-            <a className={`border bg-white rounded-lg`}>
-              <div
-                className="bg-gray-200 h-[150px] flex rounded-t-lg"
-                dangerouslySetInnerHTML={{
-                  __html: formatHtml(game.codeHtml, game.codeCss),
-                }}
-              />
-              <div className="p-4">
-                Level {game.name}
-                <div className="mt-2">{game.createdBy.name}</div>
-              </div>
-            </a>
-          </Link>
-        ))}
+      <div className="flex justify-between mb-4 bg-white border dark:border-0 p-2 rounded-lg dark:bg-secondary">
+        <button
+          className="flex items-center py-2 px-5 rounded-lg dark:text-white bg-gray-100 dark:bg-secondary-light hover:bg-gray-200 dark:hover:bg-secondary-light/50"
+          onClick={() => router.back()}
+        >
+          <MdArrowBack size={22} className="mr-2" />
+          Back
+        </button>
+
+        <h3 className="flex items-center dark:text-white text-xl font-semibold">
+          All games
+        </h3>
+
+        <div className="w-[100px]" />
+      </div>
+      <div className="grid grid-cols-4 gap-4 mt-4">
+        {games?.length <= 0 ? (
+          <p className="text-gray-500 mt-6">You don't have games yet.</p>
+        ) : (
+          games?.map((game) => <LevelCard key={game._id} level={game} isGame />)
+        )}
       </div>
     </Layout>
   );

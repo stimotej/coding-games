@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import useSWR from "swr";
 import { useRouter } from "next/router";
 import Layout from "../../components/Layout";
@@ -34,7 +33,7 @@ const CssGame = () => {
         {code}
       </div> */}
 
-      <Game game={game} />
+      <Game game={game} isLevel />
     </Layout>
   );
 };
