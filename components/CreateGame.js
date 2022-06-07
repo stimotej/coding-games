@@ -98,7 +98,6 @@ const CreateGame = ({ defaultTitle, isGame, level }) => {
           <button
             className="flex items-center ml-2 py-2 px-5 rounded-lg dark:text-white bg-gray-100 dark:bg-secondary-light hover:hover:bg-blue-500 dark:hover:bg-blue-600"
             onClick={handleSave}
-            disabled={user?.role !== "Admin"}
           >
             <MdSave size={22} className="mr-2" />
             {loading ? "Loading..." : "Save"}
