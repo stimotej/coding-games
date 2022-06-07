@@ -189,19 +189,19 @@ const Profile = () => {
                   <div className="flex-1 border-r border-gray-200 dark:border-gray-600 text-center">
                     <p className="text-gray-500">Rank</p>
                     <p className="dark:text-white font-semibold text-lg">
-                      {user?.rank || ""}
+                      {user?.rank || "Begginer"}
                     </p>
                   </div>
                   <div className="flex-1 border-r border-gray-200 dark:border-gray-600 text-center">
                     <p className="text-gray-500">Score</p>
                     <p className="dark:text-white font-semibold text-lg">
-                      {user?.score || ""}
+                      {user?.score || 0}
                     </p>
                   </div>
                   <div className="flex-1 text-center">
                     <p className="text-gray-500">Level</p>
                     <p className="dark:text-white font-semibold text-lg">
-                      {user?.levelsPassed + 1 || ""}
+                      {user?.levelsPassed + 1 || 1}
                     </p>
                   </div>
                 </div>

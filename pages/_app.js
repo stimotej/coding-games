@@ -8,9 +8,6 @@ axios.defaults.baseURL = "https://coding-games-mc2.herokuapp.com/api";
 
 function MyApp({ Component, pageProps }) {
   useEffect(() => {
-    axios.defaults.headers.common[
-      "Authorization"
-    ] = `Bearer ${localStorage.getItem("auth-token")}`;
     if (
       localStorage.theme === "dark" ||
       (!("theme" in localStorage) &&

@@ -22,6 +22,7 @@ const Login = () => {
       .then((res) => {
         setError(false);
         localStorage.setItem("auth-token", res.data);
+        axios.defaults.headers.common["Authorization"] = `Bearer ${res.data}`;
         router.push("/");
       })
       .catch((err) => {
