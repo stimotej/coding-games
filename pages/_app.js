@@ -4,7 +4,7 @@ import { SWRConfig } from "swr";
 import "../styles/globals.css";
 
 // axios.defaults.baseURL = "http://localhost:5000/api";
-axios.defaults.baseURL = "https://coding-games-mc2.herokuapp.com/api";
+axios.defaults.baseURL = "https://coding-games-backend.onrender.com/api";
 
 function MyApp({ Component, pageProps }) {
   useEffect(() => {
